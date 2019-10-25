@@ -61,6 +61,7 @@ class MotionVideoOutput(GeneratorBlock):
                     break
                 # detect motion
                 motion_detected = False
+                base_frame = frame
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 gray = cv2.GaussianBlur(gray, (21, 21), 0)
                 # if the average frame is None, initialize it
@@ -95,12 +96,12 @@ class MotionVideoOutput(GeneratorBlock):
                             self.logger.debug('Motion Detected!')
                         stream_video = True
                         non_motion_timer = self.non_motion_timer()
-                        self.notify_signals([Signal({'frame': frame})])
+                        self.notify_signals([Signal({'frame': base_frame})])
 
                 else:
                     if stream_video is True and non_motion_timer > 0:
                         non_motion_timer -= 1
-                        self.notify_signals([Signal({'frame': frame})])
+                        self.notify_signals([Signal({'frame': base_frame})])
                     else:
                         if stream_video:
                             self.logger.debug('Stream Stopped')

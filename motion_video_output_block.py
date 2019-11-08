@@ -84,8 +84,6 @@ class MotionVideoOutput(GeneratorBlock):
 
                     # compute the bounding box for the contour, draw it on the frame,
                     # and update the text
-                    (x, y, w1, h1) = cv2.boundingRect(c)
-                    cv2.rectangle(frame, (x, y), (x + w1, y + h1), (0, 255, 0), 2)
                     motion_detected = True
                 if motion_detected:
                     motion_counter += 1
